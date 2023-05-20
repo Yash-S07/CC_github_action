@@ -18,7 +18,6 @@ jobs:
       - name: GenerateFortune
         id: GenerateFortune
         run: |
-          python -c '
           import random
           fortune = ["You will encounter a bug that will lead you down a rabbit hole of endless debugging. Keep calm and refactor on!",
                      "A breakthrough in your coding skills is just around the corner. Stay curious and embrace new technologies.",
@@ -32,13 +31,14 @@ jobs:
 
           r_int = random.randint(0,len(fortune)-1)
           quote = fortune[r_int]
-          print(quote)
-          ' 
+          id: set_output
+          run: echo "::set-output name = fortune::$quote"
+           
             
       - name: Make a Comment
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.issue.number }}
-          body: ${{ steps.GenerateFortune.outputs.stdout }}
+          body: ${{ steps.GenerateFortune.outputs.fortune }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
