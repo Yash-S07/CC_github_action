@@ -41,24 +41,18 @@ jobs:
        
        
        
-      -  name: print comment
-         uses: actions/github-script@v5
-         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+      - name: Comment on Issue or PR
+        uses: actions/github-script@v4
+        with:
           script: |
             github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              issue_number: github.context.issue.number,
+              owner: github.context.repo.owner,
+              repo: github.context.repo.repo,
               body: quote
-            })
+            });
             
-            github.pull-request.createComment({
-              pull_number: context.pull-request.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: quote
-            })
+            
 
       
   
