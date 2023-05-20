@@ -41,15 +41,14 @@ jobs:
        
       - name: Comment on Issue or PR
         if: ${{ github.event_name == 'pull_request' || github.event_name == 'issues' }}
-        uses: actions/github-script@v4
-        with:
-          script: |
-            github.issues.createComment({
-              issue_number: github.context.issue.number,
-              owner: github.context.repo.owner,
-              repo: github.context.repo.repo,
-              body: quote
-            });
+      - name: Install dependencies
+        run: pip install octokit
+
+      - name: Comment on Issue or PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          print(quote)
             
             
 
