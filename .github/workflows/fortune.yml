@@ -34,8 +34,12 @@ jobs:
                         
            r_ind = random.randrange(0,len(fortune)-1)
            quote = fortune[r_ind]
-           print(quote)'
-           
+           print(quote)
+           '
+           shell: /usr/bin/bash -e {0}
+           env:
+              pythonLocation: /opt/hostedtoolcache/Python/3.11.3/x64
+              LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.3/x64/lib
              
     
         
