@@ -33,6 +33,10 @@ jobs:
           quote = fortune[r_int]
           id: set_output
           run: echo "::set-output name = fortune::$quote"
+          shell: python {0}
+          env:
+            pythonLocation: /opt/hostedtoolcache/Python/3.11.3/x64
+            LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.3/x64/lib
            
             
       - name: Make a Comment
