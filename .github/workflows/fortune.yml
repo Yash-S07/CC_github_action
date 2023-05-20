@@ -16,11 +16,11 @@ jobs:
       - name: Check code
         uses: actions/checkout@v2
         
-         
-      - name: Fortune
+      - name: GenerateFortune
         run: |
           import random
-          fortune = ["You will encounter a bug that will lead you down a rabbit hole of endless debugging. Keep calm and refactor on!",                        "A breakthrough in your coding skills is just around the corner. Stay curious and embrace new technologies.",
+           fortune = ["You will encounter a bug that will lead you down a rabbit hole of endless debugging. Keep calm and refactor on!",                     
+                      "A breakthrough in your coding skills is just around the corner. Stay curious and embrace new technologies.",
                       "Your next project will challenge you, but it will also bring great satisfaction and recognition for your hard work.",
                       "Your next project will challenge you, but it will also bring great satisfaction and recognition for your hard work.",
                       "A sudden burst of inspiration will lead you to create something truly innovative and groundbreaking. Trust your instincts.",
@@ -30,21 +30,23 @@ jobs:
                       "Embrace the power of automation. Investing time in scripting and automating tasks will save you countless hours in the future.",
                       "A networking event or conference will lead to a fortuitous connection that opens doors to exciting new projects and opportunities."]
                         
-          r_ind = random.randrange(0,len(fortune)-1)
-          quote = fortune[r_ind]
-        
-        env:
-          pythonLocation: /opt/hostedtoolcache/Python/3.11.3/x64
-          LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.3/x64/lib
-        
-        
-      - uses: wow-actions/auto-comment@v1
+           r_ind = random.randrange(0,len(fortune)-1)
+           quote = fortune[r_ind]
+           return(quote)
+          
+      - name: making a Comment
+        uses: peter-evans/create-or-update-comment@v1
         with:
+          issue-number: ${{ github.event.issue.number }}
+          body: $({steps.GenerateFortune})
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          if: ${{ github.event_name == 'pull_request' || github.event_name == 'issues' }}
-            print(quote)
+          
+        
+      
+           
        
-          shell: python {0}
+          
      
             
             
