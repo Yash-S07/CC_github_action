@@ -19,6 +19,7 @@ jobs:
       - name: GenerateFortune
         id: GenerateFortune
         run: |
+          python -c'
           import random
            fortune = ["You will encounter a bug that will lead you down a rabbit hole of endless debugging. Keep calm and refactor on!",                     
                       "A breakthrough in your coding skills is just around the corner. Stay curious and embrace new technologies.",
@@ -33,19 +34,16 @@ jobs:
                         
            r_ind = random.randrange(0,len(fortune)-1)
            quote = fortune[r_ind]
-           return(quote)
-           shell: python {0}
-           env:
-             pythonLocation: /opt/hostedtoolcache/Python/3.11.3/x64
-             LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.3/x64/lib
+           print(quote)'
+           
              
     
-        if: ${{ github.event_name == 'pull_request' || github.event_name == 'issues' }}
+        
       - name: making a Comment
         uses: peter-evans/create-or-update-comment@v1
         with:
-          issue-number: ${{ github.event.issue.number }}
-          body: $({steps.GenerateFortune})
+           issue-number: ${{ github.event.issue.number }}
+           body: $({steps.GenerateFortune.outputs.stdout })
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
