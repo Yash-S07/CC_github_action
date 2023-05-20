@@ -5,7 +5,6 @@ on:
   issues:
   workflow_dispatch:
 
-
 jobs:
   Tell_fortune:
     runs-on: ubuntu-latest
@@ -19,46 +18,29 @@ jobs:
       - name: GenerateFortune
         id: GenerateFortune
         run: |
-          python -c'
-          import random
-           fortune = ["You will encounter a bug that will lead you down a rabbit hole of endless debugging. Keep calm and refactor on!",                     
-                      "A breakthrough in your coding skills is just around the corner. Stay curious and embrace new technologies.",
-                      "Your next project will challenge you, but it will also bring great satisfaction and recognition for your hard work.",
-                      "Your next project will challenge you, but it will also bring great satisfaction and recognition for your hard work.",
-                      "A sudden burst of inspiration will lead you to create something truly innovative and groundbreaking. Trust your instincts.",
-                      "A hidden gem in an open-source library will solve a problem you've been struggling with for days. Keep exploring and experimenting.",
-                      "Collaboration will be key to your success. Seek out the expertise of your fellow developers and build something remarkable together.",
-                      "An unexpected deadline extension will provide you with the time needed to refine your code and deliver an exceptional product.",
-                      "Embrace the power of automation. Investing time in scripting and automating tasks will save you countless hours in the future.",
-                      "A networking event or conference will lead to a fortuitous connection that opens doors to exciting new projects and opportunities."]
-                        
-           r_ind = random.randrange(0,len(fortune)-1)
-           quote = fortune[r_ind]
-           print(quote)
-           '
-           shell: /usr/bin/bash -e {0}
-           env:
-              pythonLocation: /opt/hostedtoolcache/Python/3.11.3/x64
-              LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.3/x64/lib
-             
-    
-        
-      - name: making a Comment
+          python -c '
+import random
+
+fortune = [
+    "You will encounter a bug that will lead you down a rabbit hole of endless debugging. Keep calm and refactor on!",
+    "A breakthrough in your coding skills is just around the corner. Stay curious and embrace new technologies.",
+    "Your next project will challenge you, but it will also bring great satisfaction and recognition for your hard work.",
+    "A sudden burst of inspiration will lead you to create something truly innovative and groundbreaking. Trust your instincts.",
+    "A hidden gem in an open-source library will solve a problem you've been struggling with for days. Keep exploring and experimenting.",
+    "Collaboration will be key to your success. Seek out the expertise of your fellow developers and build something remarkable together.",
+    "An unexpected deadline extension will provide you with the time needed to refine your code and deliver an exceptional product.",
+    "Embrace the power of automation. Investing time in scripting and automating tasks will save you countless hours in the future.",
+    "A networking event or conference will lead to a fortuitous connection that opens doors to exciting new projects and opportunities."
+]
+r_int = random.randint(0,len(fortune)-1)
+quote = fortune[r_int]
+print(quote)
+'
+          
+      - name: Make a Comment
         uses: peter-evans/create-or-update-comment@v1
         with:
-           issue-number: ${{ github.event.issue.number }}
-           body: $({steps.GenerateFortune.outputs.stdout })
+          issue-number: ${{ github.event.issue.number }}
+          body: ${{ steps.GenerateFortune.outputs.stdout }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-        
-      
-           
-       
-          
-     
-            
-            
-
-      
-  
