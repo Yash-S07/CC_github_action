@@ -38,6 +38,27 @@ jobs:
         env:
           pythonLocation: /opt/hostedtoolcache/Python/3.11.3/x64
           LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.3/x64/lib
+       
+       
+       
+      -  name: print comment
+         uses: actions/github-script@v5
+         with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: quote
+            })
+            
+            github.pull-request.createComment({
+              pull_number: context.pull-request.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: quote
+            })
 
       
   
