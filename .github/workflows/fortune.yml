@@ -1,25 +1,25 @@
-name: Developer Fortune
+name: Fortune Commenter
 
 on:
-  pull_request:
   issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
   workflow_dispatch:
 
 jobs:
-  Tell_fortune:
+  comment_fortune:
     runs-on: ubuntu-latest
     steps:
-      - name: setup_python
-        uses: actions/setup-python@v3
-    
-      - name: Check code
+      - name: Check out repository
         uses: actions/checkout@v2
-        
-      - name: GenerateFortune
+
+      - name: Generate Fortune
         id: GenerateFortune
         run: |
+          echo "::set-output name=fortune::$(python -c '
           import random
-          fortune = ["You will encounter a bug that will lead you down a rabbit hole of endless debugging. Keep calm and refactor on!",
+          fortunes = ["You will encounter a bug that will lead you down a rabbit hole of endless debugging. Keep calm and refactor on!",
                      "A breakthrough in your coding skills is just around the corner. Stay curious and embrace new technologies.",
                      "Your next project will challenge you, but it will also bring great satisfaction and recognition for your hard work.",
                      "A sudden burst of inspiration will lead you to create something truly innovative and groundbreaking. Trust your instincts.",
@@ -29,21 +29,20 @@ jobs:
                      "Embrace the power of automation. Investing time in scripting and automating tasks will save you countless hours in the future.",
                      "A networking event or conference will lead to a fortuitous connection that opens doors to exciting new projects and opportunities."]
 
-          r_int = random.randint(0,len(fortune)-1)
-          quote = fortune[r_int]
-          id: set_output
-          run: echo "::set-output name = fortune::$quote"
-          shell: /usr/bin/bash -e {0}
-          shell: python {0}
-          env:
-            pythonLocation: /opt/hostedtoolcache/Python/3.11.3/x64
-            LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.3/x64/lib
-           
-            
-      - name: Make a Comment
-        uses: peter-evans/create-or-update-comment@v1
+          print(random.choice(fortunes))
+          ')"
+
+      - name: Comment on Issue or PR
+        uses: actions/github-script@v5
         with:
-          issue-number: ${{ github.event.issue.number }}
-          body: ${{ steps.GenerateFortune.outputs.fortune }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issueOrPR = context.payload.issue || context.payload.pull_request;
+            const fortune = `${{ steps.GenerateFortune.outputs.fortune }}`;
+            const commentBody = `**Fortune:** ${fortune}`;
+            const issueComment = await github.issues.createComment({
+              ...context.repo,
+              issue_number: issueOrPR.number,
+              body: commentBody
+            });
+            console.log(`Commented on ${issueOrPR.html_url}`);
