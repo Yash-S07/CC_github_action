@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@v2
         
       - name: GenerateFortune
+        id: GenerateFortune
         run: |
           import random
            fortune = ["You will encounter a bug that will lead you down a rabbit hole of endless debugging. Keep calm and refactor on!",                     
