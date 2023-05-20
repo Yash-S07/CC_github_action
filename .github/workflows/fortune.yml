@@ -31,7 +31,7 @@ jobs:
                       "Embrace the power of automation. Investing time in scripting and automating tasks will save you countless hours in the future.",
                       "A networking event or conference will lead to a fortuitous connection that opens doors to exciting new projects and opportunities."]
                         
-          r_ind = random.randrange(0,len(fortune))
+          r_ind = random.randrange(0,len(fortune)-1)
           quote = fortune[r_ind]
           print(quote)
         shell: python {0}
