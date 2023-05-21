@@ -47,7 +47,6 @@ jobs:
        
    
   Comment_on_Issue_or_PR:
-    if: github.event_name == 'pull_request' || 'issue'
     runs-on: ubuntu-latest
     needs: comment_fortune
     steps:
@@ -57,11 +56,15 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const issueOrPR = context.payload.issue || context.payload.pull_request;
+            if (!issueOrPR) {
+              return;
+            }
             const fortune = "${{ needs.comment_fortune.outputs.quote }}";
             const commentBody = `**Fortune:** ${fortune}`;
-            const issueComment = await github.issues.createComment({
+            github.issues.createComment({
               ...context.repo,
               issue_number: issueOrPR.number,
               body: commentBody
             });
             console.log(`Commented on ${issueOrPR.html_url}`);
+
