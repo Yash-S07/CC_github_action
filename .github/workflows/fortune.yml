@@ -2,13 +2,14 @@ name: Developer Fortune
 
 on:
   issues:
-    types: [opened]
+    types: [opened,closed]
   pull_request:
     types: [opened]
   workflow_dispatch:
 
 jobs:
   comment_fortune:
+    if: github.event_name == 'pull_request' || 'issue'
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
