@@ -66,5 +66,4 @@ jobs:
               issue_number: issueOrPR.number,
               body: commentBody
             });
-            console.log(`Commented on ${issueOrPR.html_url}`);
 
