@@ -36,6 +36,7 @@ jobs:
           env:
             pythonLocation: /opt/hostedtoolcache/Python/3.11.3/x64
             LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.3/x64/lib
+          shell: /usr/bin/bash -e {0}
 
 
       - name: Comment on Issue or PR
