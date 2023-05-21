@@ -16,8 +16,7 @@ jobs:
 
       - name: Generate Fortune
         id: GenerateFortune
-        run: |
-          echo "::set-output name=fortune::$(python -c '
+        run: | 
           import random
 
           fortunes = ["You will encounter a bug that will lead you down a rabbit hole of endless debugging. Keep calm and refactor on!",
@@ -29,9 +28,14 @@ jobs:
                       "An unexpected deadline extension will provide you with the time needed to refine your code and deliver an exceptional product.",
                       "Embrace the power of automation. Investing time in scripting and automating tasks will save you countless hours in the future.",
                       "A networking event or conference will lead to a fortuitous connection that opens doors to exciting new projects and opportunities."]
+          
+          quote = ranom.choice(fortunes)
+          return(quote)
+        shell: python {0}
+        env:
+          pythonLocation: /opt/hostedtoolcache/Python/3.11.3/x64
+          LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.3/x64/lib
 
-          print(random.choice(fortunes))
-                      )"
 
       - name: Comment on Issue or PR
         uses: actions/github-script@v5
@@ -39,7 +43,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const issueOrPR = context.payload.issue || context.payload.pull_request;
-            const fortune = "${{ steps.GenerateFortune.outputs.fortune }}";
+            const fortune = "${{ steps.GenerateFortune.outputs.quote }}";
             const commentBody = `**Fortune:** ${fortune}`;
             const issueComment = await github.issues.createComment({
               ...context.repo,
