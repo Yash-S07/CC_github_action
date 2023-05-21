@@ -52,7 +52,7 @@ jobs:
         uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
+          run: |
             const issueOrPR = context.payload.issue || context.payload.pull_request;
             const fortune = "${{ needs.comment_fortune.outputs.quote }}";
             const commentBody = `**Fortune:** ${fortune}`;
