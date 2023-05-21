@@ -43,8 +43,10 @@ jobs:
         
     outputs:
       quote: ${{ steps.GenerateFortune.outputs.quote }}
-          
+       
+   
   Comment_on_Issue_or_PR:
+    if: github.event_name == 'pull_request' || 'issue'
     runs-on: ubuntu-latest
     needs: comment_fortune
     steps:
