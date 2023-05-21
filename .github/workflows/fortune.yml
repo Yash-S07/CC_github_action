@@ -31,10 +31,11 @@ jobs:
           
           quote = ranom.choice(fortunes)
           return(quote)
-        shell: python {0}
-        env:
-          pythonLocation: /opt/hostedtoolcache/Python/3.11.3/x64
-          LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.3/x64/lib
+          
+          shell: /usr/bin/python {0}
+          env:
+            pythonLocation: /opt/hostedtoolcache/Python/3.11.3/x64
+            LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.3/x64/lib
 
 
       - name: Comment on Issue or PR
