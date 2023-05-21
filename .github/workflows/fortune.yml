@@ -49,7 +49,7 @@ jobs:
     needs: comment_fortune
     steps:
       - name: Comment
-        uses: actions/github-script@v5
+        uses: actions/github-script@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
